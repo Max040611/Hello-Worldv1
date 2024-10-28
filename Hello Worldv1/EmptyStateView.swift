@@ -4,6 +4,7 @@ struct EmptyStateView: View {
     @Binding var searchText: String
     @Binding var showSearchBar: Bool
     @Binding var showNewEntrySheet: Bool
+    @EnvironmentObject var viewModel: JournalViewModel // Access shared view model
     @State private var showDropdownMenu = false // State for showing filter options
 
     var body: some View {
@@ -35,9 +36,8 @@ struct EmptyStateView: View {
             
             Spacer()
             
-            // Aligning filter and plus buttons within the VStack
+            // Filter and Plus Buttons
             ZStack(alignment: .topTrailing) {
-                
                 HStack {
                     Spacer()
                     
@@ -77,7 +77,7 @@ struct EmptyStateView: View {
                         }
                     }
                     .sheet(isPresented: $showNewEntrySheet) {
-                        NewJournalEntryView(viewModel: JournalViewModel())
+                        NewJournalEntryView(viewModel: viewModel) // Pass viewModel to NewJournalEntryView
                     }
                     
                     Spacer()
@@ -107,7 +107,7 @@ struct EmptyStateView: View {
                     .background(Color(hex: "#202022"))
                     .cornerRadius(8)
                     .foregroundColor(.white)
-                    .padding(.top, 30) // Position dropdown below filter button
+                    .padding(.top, 30)
                     .padding(.trailing, 240)
                 }
             }

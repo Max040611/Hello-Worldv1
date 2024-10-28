@@ -28,9 +28,9 @@ struct NewJournalEntryView: View {
 
                     TextField("Type your Journal...", text: $journalText, axis: .vertical)
 
-                       .font(.system(size: 18))
-                       .foregroundColor(.white)
-                       .padding(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
+                        .font(.system(size: 18))
+                        .foregroundColor(.white)
+                        .padding(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
                         .background(Color.clear)
                 }
                 

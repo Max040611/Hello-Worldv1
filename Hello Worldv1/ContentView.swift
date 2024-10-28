@@ -1,17 +1,28 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var hasEntries = false
     @State var searchText = ""
     @State var showSearchBar = false
     @State var showNewEntrySheet = false
     @State var showDropdownMenu = false
+    @ObservedObject var viewModel = JournalViewModel() // Observing JournalViewModel
     
     var body: some View {
-        if hasEntries {
-            MainPageView(searchText: $searchText, showSearchBar: $showSearchBar, showNewEntrySheet: $showNewEntrySheet, showDropdownMenu: $showDropdownMenu)
+        if viewModel.journalEntries.isEmpty {
+            EmptyStateView(
+                searchText: $searchText,
+                showSearchBar: $showSearchBar,
+                showNewEntrySheet: $showNewEntrySheet
+            )
+            .environmentObject(viewModel) // Provide the view model to EmptyStateView
         } else {
-            EmptyStateView(searchText: $searchText, showSearchBar: $showSearchBar, showNewEntrySheet: $showNewEntrySheet)
+            MainPageView(
+                searchText: $searchText,
+                showSearchBar: $showSearchBar,
+                showNewEntrySheet: $showNewEntrySheet,
+                showDropdownMenu: $showDropdownMenu,
+                viewModel: viewModel // Pass the view model to MainPageView
+            )
         }
     }
 }

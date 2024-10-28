@@ -1,14 +1,13 @@
 import SwiftUI
 
-// MARK: - Model
 struct JournalEntry: Identifiable {
     let id = UUID()
     var title: String
     var date: Date
     var content: String
+    var isBookmarked: Bool = false // Add a bookmark property
 }
 
-// MARK: - ViewModel
 class JournalViewModel: ObservableObject {
     @Published var journalEntries: [JournalEntry] = []
     
@@ -16,7 +15,21 @@ class JournalViewModel: ObservableObject {
         let newEntry = JournalEntry(title: title, date: Date(), content: content)
         journalEntries.insert(newEntry, at: 0)
     }
-}
-#Preview {
-    ContentView()
+    
+    func deleteJournalEntry(at offsets: IndexSet) {
+        journalEntries.remove(atOffsets: offsets)
+    }
+    
+    func editJournal(entry: JournalEntry, newTitle: String, newContent: String) {
+        if let index = journalEntries.firstIndex(where: { $0.id == entry.id }) {
+            journalEntries[index].title = newTitle
+            journalEntries[index].content = newContent
+        }
+    }
+
+    func toggleBookmark(for entry: JournalEntry) {
+        if let index = journalEntries.firstIndex(where: { $0.id == entry.id }) {
+            journalEntries[index].isBookmarked.toggle()
+        }
+    }
 }
